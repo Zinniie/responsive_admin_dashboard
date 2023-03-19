@@ -1,15 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive_admin_dashboard/constants.dart';
+import 'package:responsive_admin_dashboard/responsive.dart';
 
-import 'components/chart.dart';
 import 'components/header.dart';
 import 'components/my_files.dart';
+import 'components/recent_files.dart';
 import 'components/storage_details.dart';
-import 'components/storage_info_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -31,14 +29,31 @@ class DashboardScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       flex: 5,
-                      child: MyFiles()),
-                  SizedBox(
-                    width: defaultPadding,
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: StorageDetails(),
-                  ),
+                      child: Column(
+                        children: [
+                          MyFiles(),
+                          SizedBox(
+                            height: defaultPadding,
+                          ),
+                          RecentFiles(),
+                          if (Responsive.isMobile(context))
+                            SizedBox(
+                              height: defaultPadding,
+                            ),
+                          // on mobile means if tge screen is less thab 850; we dont want it to shiw
+                          if (Responsive.isMobile(context)) StorageDetails(),
+                        ],
+                      )),
+                  if (!Responsive.isMobile(context))
+                    SizedBox(
+                      width: defaultPadding,
+                    ),
+                  // on mobile means if tge screen is less thab 850; we dont want it to shiw
+                  if (!Responsive.isMobile(context))
+                    Expanded(
+                      flex: 2,
+                      child: StorageDetails(),
+                    ),
                 ],
               )
             ],
@@ -48,5 +63,3 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
-
